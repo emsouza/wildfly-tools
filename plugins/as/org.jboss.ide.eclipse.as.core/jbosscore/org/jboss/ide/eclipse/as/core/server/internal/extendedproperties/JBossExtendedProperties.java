@@ -1,0 +1,200 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/ 
+package org.jboss.ide.eclipse.as.core.server.internal.extendedproperties;
+
+import java.io.File;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
+import org.eclipse.osgi.util.NLS;
+import org.jboss.ide.eclipse.as.core.JBossServerCorePlugin;
+import org.jboss.ide.eclipse.as.core.Messages;
+import org.jboss.ide.eclipse.as.core.resolvers.ConfigNameResolver;
+import org.jboss.ide.eclipse.as.core.resolvers.RuntimeVariableResolver;
+import org.jboss.ide.eclipse.as.core.server.IDefaultLaunchArguments;
+import org.jboss.ide.eclipse.as.core.server.IDeploymentScannerModifier;
+import org.jboss.ide.eclipse.as.core.server.IServerModuleStateVerifier;
+
+import org.jboss.ide.eclipse.as.core.server.internal.JBossLT6ModuleStateVerifier;
+import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
+import org.jboss.ide.eclipse.as.core.server.internal.JMXServerDeploymentScannerAdditions;
+import org.jboss.ide.eclipse.as.core.server.bean.ServerBeanLoader;
+import org.jboss.ide.eclipse.as.core.util.IJBossRuntimeResourceConstants;
+import org.jboss.ide.eclipse.as.core.util.IJBossToolingConstants;
+import org.jboss.ide.eclipse.as.core.util.ServerUtil;
+import org.jboss.tools.foundation.core.expressions.ExpressionResolver;
+
+/**
+ * The superclass containing most functionality, to be overridden as necessary.
+ * The contents of this are all sorts of errata that do not really fit anywhere
+ * else, but need to be customized on a per-server or per-server-type basis
+ *
+ */
+public class JBossExtendedProperties extends ServerExtendedProperties {
+	public static enum DEPLOYMENT_JAVA_NAMESPACE {
+		DEPLOYMENT_NAMESPACE_JAVAX,
+		DEPLOYMENT_NAMESPACE_JAKARTA
+	}
+	
+	public JBossExtendedProperties(IAdaptable adaptable) {
+		super(adaptable);
+	}
+	
+	/* 
+	 * Get the version string for this runtime type. 
+	 * Some subclasses may choose to respond with a .x suffix. 
+	 */
+	public String getRuntimeTypeVersionString() {
+		return runtime.getRuntimeType().getVersion();
+	}
+	
+	public boolean runtimeSupportsBindingToAllInterfaces() {
+		return true;
+	}
+
+	public boolean runtimeSupportsExposingManagement() {
+		return false;
+	}
+
+	protected ServerBeanLoader getServerBeanLoader() {
+		return runtime == null ? null : new ServerBeanLoader(runtime.getLocation().toFile());
+	}
+	
+	/**
+	 * Returns the full path of a local server's server/{config}/deploy folder
+	 * or standalone/deployments folder depending on configuration location
+	 */
+	public String getServerDeployLocation() {
+		String original = ConfigNameResolver.getVariablePattern(ConfigNameResolver.JBOSS_CONFIG_DIR) +
+				"/" + IJBossRuntimeResourceConstants.DEPLOY;  //$NON-NLS-1$
+		 RuntimeVariableResolver resolver = new RuntimeVariableResolver(runtime);
+		 ExpressionResolver process = new ExpressionResolver(resolver);
+		 return process.resolve(original);
+	}
+
+	public int getJMXProviderType() {
+		return JMX_OVER_JNDI_PROVIDER;
+	}
+	
+	public boolean hasWelcomePage() {
+		return true;
+	}
+	
+	@Deprecated
+	protected static final String WELCOME_PAGE_URL_PATTERN = "http://{0}:{1}/"; //$NON-NLS-1$
+	public String getWelcomePageUrl() {
+		try {
+			JBossServer jbossServer = ServerUtil.checkedGetServerAdapter(server, JBossServer.class);
+			int webPort = jbossServer.getJBossWebPort();
+			String consoleUrl = ServerUtil.createSafeURLString("http", server.getHost(), webPort, null); //$NON-NLS-1$
+			return consoleUrl;
+		} catch(CoreException ce) {
+			return null;
+		}
+	}
+
+	public int getMultipleDeployFolderSupport() {
+		return DEPLOYMENT_SCANNER_JMX_SUPPORT;
+	}
+
+	public IStatus verifyServerStructure() {
+		try {
+			String e = getVerifyStructureErrorMessage();
+			if( e != null )
+				return new Status(IStatus.ERROR, JBossServerCorePlugin.PLUGIN_ID, e);
+		} catch(CoreException ce ) {
+			return ce.getStatus();
+		}
+		return Status.OK_STATUS;
+	}
+	
+	protected String getVerifyStructureErrorMessage() throws CoreException{
+		if( server.getRuntime() == null ) 
+			return NLS.bind(Messages.ServerMissingRuntime, server.getName());
+		if( !server.getRuntime().getLocation().toFile().exists())
+			return NLS.bind(Messages.RuntimeFolderDoesNotExist, server.getRuntime().getLocation().toOSString());
+		JBossServer jbossServer = ServerUtil.checkedGetServerAdapter(server, JBossServer.class);
+		if( !new File(jbossServer.getConfigDirectory()).exists()) 
+			return NLS.bind(Messages.JBossConfigurationFolderDoesNotExist, jbossServer.getConfigDirectory());
+		return null;
+	}
+
+	public boolean canVerifyRemoteModuleState() {
+		return true;
+	}
+	
+	public IServerModuleStateVerifier getModuleStateVerifier() {
+		return new JBossLT6ModuleStateVerifier();
+	}
+	
+	public IDeploymentScannerModifier getDeploymentScannerModifier() {
+		return new JMXServerDeploymentScannerAdditions();
+	}
+	
+	public IDefaultLaunchArguments getDefaultLaunchArguments() {
+		if( server != null)
+			return new JBossDefaultLaunchArguments(server);
+		return new JBossDefaultLaunchArguments(runtime);
+	}
+	
+	public boolean requiresJDK() {
+		return false;
+	}
+	
+	public int getFileStructure() {
+		return FILE_STRUCTURE_SERVER_CONFIG_DEPLOY;
+	}
+	
+	/**
+	 * This is being used to indicate the MINIMUM execution environment, 
+	 * not just the default!
+	 * 
+	 * @param rtType
+	 * @return
+	 */
+	public IExecutionEnvironment getDefaultExecutionEnvironment() {
+		// NEW_SERVER_ADAPTER  Subclasses override this
+		return JavaRuntime.getExecutionEnvironmentsManager().getEnvironment("J2SE-1.4"); //$NON-NLS-1$
+	}
+	
+	public IExecutionEnvironment getMinimumExecutionEnvironment() {
+		// NEW_SERVER_ADAPTER  Subclasses override this
+		return getDefaultExecutionEnvironment();
+	}
+
+	// Return an exec-env or null if it can run on any higher exec-env. 
+	public IExecutionEnvironment getMaximumExecutionEnvironment() {
+		// NEW_SERVER_ADAPTER  Subclasses override this
+		return JavaRuntime.getExecutionEnvironmentsManager().getEnvironment("JavaSE-1.8"); //$NON-NLS-1$
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * For JBoss servers allow only for servers which are know to support this according to AS7-4704.
+	 */
+	@Override
+	public boolean allowExplodedModulesInWarLibs() {
+		return false;
+	}
+	
+	public boolean allowExplodedModulesInEars() {
+		return false;
+	}
+	
+	public DEPLOYMENT_JAVA_NAMESPACE getDeploymentJavaNamespace() {
+		return DEPLOYMENT_JAVA_NAMESPACE.DEPLOYMENT_NAMESPACE_JAVAX;
+	}
+}

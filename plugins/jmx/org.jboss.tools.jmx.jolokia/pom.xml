@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jboss.tools</groupId>
+    <artifactId>wildfly-tools</artifactId>
+    <version>4.5.0-SNAPSHOT</version>
+    <relativePath>../../../pom.xml</relativePath>
+  </parent>
+  <groupId>org.jboss.tools.jmx.plugins</groupId>
+	<artifactId>org.jboss.tools.jmx.jolokia</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<name>org.jboss.tools.jmx.jolokia</name>
+
+	<properties>
+		<jolokia.client.version>2.6.0</jolokia.client.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>get-libs</id>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>false</skip>
+					<artifactItems>
+						<artifactItem>
+							<groupId>org.jolokia</groupId>
+							<artifactId>jolokia-client-java</artifactId>
+
+						</artifactItem>
+						<artifactItem>
+							<groupId>org.jolokia</groupId>
+							<artifactId>jolokia-core</artifactId>
+
+						</artifactItem>
+						<artifactItem>
+							<groupId>org.jolokia</groupId>
+							<artifactId>jolokia-service-jsr160</artifactId>
+
+						</artifactItem>
+						<artifactItem>
+							<groupId>org.jolokia</groupId>
+							<artifactId>jolokia-json</artifactId>
+
+						</artifactItem>
+					</artifactItems>
+					<useBaseVersion>true</useBaseVersion>
+					<skip>false</skip>
+					<outputDirectory>${basedir}/lib/</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- make sure lib dir is removed after clean to avoid "dirty" build -->
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/lib</directory>
+							<includes>
+								<include>*.jar</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+</project>

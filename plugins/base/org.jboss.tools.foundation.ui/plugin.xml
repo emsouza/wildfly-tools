@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+    <extension
+          point="org.eclipse.ui.preferencePages">
+       <page
+             id="org.jboss.tools.foundation.ui.internal.credentials.CredentialPreferencePage"
+             name="Credentials"
+             category="org.jboss.tools.common.model.ui.MainPreferencePage"
+             class="org.jboss.tools.foundation.ui.credentials.internal.CredentialPreferencePage">
+       </page>
+  </extension>
+    <extension
+          point="org.jboss.tools.foundation.core.credentialPrompter">
+       <prompter
+             class="org.jboss.tools.foundation.ui.credentials.internal.CredentialsPrompter">
+       </prompter>
+    </extension>
+</plugin>

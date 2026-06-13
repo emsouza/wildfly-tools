@@ -1,0 +1,2763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension-point id="pollers" name="org.jboss.ide.eclipse.as.core.runtime.server.pollers" schema="schema/pollers.exsd"/>
+   <extension-point id="pollerFailureHandler" name="org.jboss.ide.eclipse.as.core.runtime.server.pollerFailureHandler" schema="schema/pollerFailureHandler.exsd"/>
+   <extension-point id="publishers" name="org.jboss.ide.eclipse.as.core.publishers" schema="schema/publishers.exsd"/>
+   <extension-point id="publishMethod" name="org.jboss.ide.eclipse.as.core.publishMethod" schema="schema/publishMethod.exsd"/>
+   <extension-point id="behaviourExtension" name="org.jboss.ide.eclipse.as.core.behaviourExtension" schema="schema/behaviourExtension.exsd"/>
+   <extension-point id="jmxRunner" name="org.jboss.ide.eclipse.as.core.jmxRunner" schema="schema/jmxRunner.exsd"/>
+
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.jboss.ide.eclipse.as.core.eap.xp.EapXpLaunchConfigurationDelegate"
+            id="org.jboss.ide.eclipse.as.core.eapxp.EapXpLaunchConfigurationDelegate"
+            modes="run, debug"
+            name="Standalone Web Application">
+      </launchConfigurationType>
+   </extension>>
+
+
+   <!-- Moving deloy-only into its own area -->
+   <extension
+         point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.DeployableServer"
+            description="%deploy.server.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.systemCopyServer"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run"
+            name="%deploy.server.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.stripped"
+            supportsRemoteHosts="true"/>
+	</extension>
+   <extension
+         point="org.eclipse.wst.server.core.runtimeTypes">
+         <!-- This is a complete dummy runtime type and is unused but cannot be removed -->
+      <runtimeType
+            class="org.jboss.ide.eclipse.as.core.server.internal.DeployableServerRuntime"
+            description="%deploy.runtime.description"
+            id="org.jboss.ide.eclipse.as.runtime.stripped"
+            name="%deploy.runtime.name"
+            vendor="%basicProviderName"
+            version="1.0">
+          <moduleType types="jst.appclient" versions="1.2,1.3,1.4,5.0,6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5,3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0,3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0,6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5,1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jbt.egit" versions="1.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+	</extension> 
+
+
+
+
+
+   <!-- JBoss server types declared below -->
+   <extension
+         point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7Server"
+            description="%jboss.version.70.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.70"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.70.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.70"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7Server"
+            description="%jboss.version.71.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.71"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.71.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.71"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.80"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly8.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly8.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.80"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+            
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.90"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly9.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly9.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.90"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.100"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly10.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly10.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.100"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.110"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly11.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly11.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.110"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.120"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly12.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly12.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.120"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7Server"
+            description="%jboss.eap.version.60.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.60"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.60.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.60"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7Server"
+            description="%jboss.eap.version.61.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.61"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.61.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.61"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.eap.version.70.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.70"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.70.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.70"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+            
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.eap.version.71.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.71"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.71.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.71"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.eap.version.72.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.72"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.72.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.72"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.eap.version.73.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.73"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.73.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.73"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+
+     <!-- NEW_SERVER_ADAPTER Add the new server type above this line -->
+   </extension>
+
+   <extension
+         point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss7ServerRuntime"
+             description="%jboss.version.70.description"
+             name="%jboss.version.70.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.70"
+             version="7.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.version.71.description"
+             name="%jboss.version.71.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.71"
+             version="7.1">
+          <moduleType types="jst.appclient" versions="5.0, 6.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly8.description"
+             name="%jboss.version.wildfly8.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.80"
+             version="8.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly9.description"
+             name="%jboss.version.wildfly9.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.90"
+             version="9.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly10.description"
+             name="%jboss.version.wildfly10.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.100"
+             version="10.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly11.description"
+             name="%jboss.version.wildfly11.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.110"
+             version="11.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly12.description"
+             name="%jboss.version.wildfly12.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.120"
+             version="12.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+
+
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.60.description"
+             name="%jboss.eap.version.60.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.60"
+             version="6.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.61.description"
+             name="%jboss.eap.version.61.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.61"
+             version="6.1">
+          <moduleType types="jst.appclient" versions="5.0, 6.0, 7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+    
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss7ServerRuntime"
+             description="%jboss.eap.version.70.description"
+             name="%jboss.eap.version.70.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.70"
+             version="7.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+    
+    
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.71.description"
+             name="%jboss.eap.version.71.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.71"
+             version="7.1">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.72.description"
+             name="%jboss.eap.version.72.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.72"
+             version="7.2">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.73.description"
+             name="%jboss.eap.version.73.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.73"
+             version="7.3">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+
+      <!-- NEW_SERVER_ADAPTER Add the new Runtime type above this line -->
+   </extension>
+
+
+	<!-- Launch Configuration for the servers -->
+	<extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            category="JBoss"
+            delegate="org.jboss.ide.eclipse.as.wtp.core.server.launch.ControllableServerLaunchConfiguration"
+            id="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            modes="run,debug,profile"
+            name="JBoss Application Server Startup Configuration"
+            public="true"
+            sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+            sourcePathComputerId="org.eclipse.jst.server.generic.core.sourcePathComputer"/>
+      <launchConfigurationType
+            delegate="org.jboss.ide.eclipse.as.core.server.internal.launch.StopLaunchConfiguration"
+            id="org.jboss.ide.eclipse.as.core.server.stopLaunchConfiguration"
+            modes="run"
+            name="Stop Server"
+            public="false">
+      </launchConfigurationType>
+   </extension>
+
+   <extension
+         point="org.eclipse.debug.core.sourcePathComputers">
+      <sourcePathComputer
+            class="org.jboss.ide.eclipse.as.core.server.xpl.ServerSourcePathComputerDelegate"
+            id="org.jboss.ide.eclipse.as.core.serverSourcePathComputer">
+      </sourcePathComputer>
+   </extension>
+
+	<!-- Module Factory Stuff -->
+
+   <extension
+         point="org.eclipse.wst.server.core.moduleFactories">
+      <moduleFactory
+            class="org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory"
+            id="org.jboss.ide.eclipse.as.core.singledeployablefactory"
+            projects="false">
+         <moduleType
+               types="jboss.singlefile"
+               versions="1.0">
+         </moduleType>
+      </moduleFactory>
+      <moduleFactory
+            class="org.jboss.ide.eclipse.as.core.modules.OSGiModuleFactory"
+            id="org.jboss.ide.eclipse.as.core.osgiModuleFactory"
+            projects="true">
+         <moduleType
+               types="jboss.osgi"
+               versions="1.0">
+         </moduleType>
+      </moduleFactory>
+   </extension>
+   
+   <extension
+         point="org.eclipse.wst.server.core.moduleArtifactAdapters">
+      <moduleArtifactAdapter
+            class="org.jboss.ide.eclipse.as.core.modules.SingleDeployableAdapter"
+            id="org.jboss.ide.eclipse.as.core.modules.SingleDeployableAdapter"
+            priority="0">
+         <enablement>
+            <or>
+               <instanceof value="org.eclipse.core.resources.IFile"/>
+            </or>
+         </enablement>
+	  </moduleArtifactAdapter>
+   </extension>
+
+   <extension
+         point="org.eclipse.wst.server.core.launchableAdapters">
+      <launchableAdapter
+            class="org.jboss.ide.eclipse.as.core.server.internal.JBossLaunchAdapter"
+            id="org.jboss.ide.eclipse.as.core.launchableAdapter1"/>
+   </extension>
+
+   <!-- How to determine whether the server is up or down -->
+   <extension
+         point="org.jboss.ide.eclipse.as.core.pollers">
+      <serverPoller
+            class="org.jboss.ide.eclipse.as.core.extensions.polling.TimeoutPoller"
+            id="org.jboss.ide.eclipse.as.core.runtime.server.timeoutpoller"
+            name="Timeout"
+            supportsStartup="true"
+            supportsShutdown="true"/>
+      <serverPoller
+            behaviorModes="local"
+            class="org.jboss.ide.eclipse.as.core.extensions.polling.ProcessTerminatedPoller"
+            id="org.jboss.ide.eclipse.as.core.runtime.server.processTerminatedPoller"
+            name="Process Terminated"
+            supportsShutdown="true"
+            supportsStartup="false">
+      </serverPoller>
+      <serverPoller
+            class="org.jboss.ide.eclipse.as.core.extensions.polling.WebPortPoller"
+            id="org.jboss.ide.eclipse.as.core.runtime.server.WebPoller"
+            name="Web Port"
+            supportsShutdown="true"
+            supportsStartup="true">
+      </serverPoller>
+      <serverPoller
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7ManagerServicePoller"
+            id="org.jboss.ide.eclipse.as.core.server.JBoss7ManagerServicePoller"
+            name="Management Service"
+            serverTypes="%ServerTypesJBoss7"
+            supportsShutdown="true"
+            supportsStartup="true">
+       </serverPoller>
+       <!-- 
+       		We need to use a different id here for this poller. Under the current impl, 
+       		these are stored in a map with the id as key, and the entries cannot be 
+       		merged into a single model. Therefore we need to give it a different id. 
+       		
+       		This is legacy. This additional poller was added simply to  
+       		give different poller names to the same poller, which was a dumb workaround.
+       		But the poller Id is api now, and so cannot be changed. At least the names can be unified
+       -->
+      <serverPoller
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7ManagerServicePoller"
+            id="org.jboss.ide.eclipse.as.core.server.Wildfly8ManagerServicePoller"
+            name="Management Service"
+            serverTypes="%ServerTypesWildflyAndEAPUnion"
+            supportsShutdown="true"
+            supportsStartup="true">
+       </serverPoller>
+       <!-- NEW_SERVER_ADAPTER Add a new management poller above if the new server type requires a custom poller -->
+   </extension>
+
+
+
+
+   <!-- Stuff for the dual model of runtimes... facet time baby! -->
+   <extension
+         point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.70"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.component"
+            version="7.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.71"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.component"
+            version="7.1"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.80"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="8.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.90"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="9.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.100"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="10.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.110"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="11.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.120"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="12.0"/>
+
+
+
+
+       <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.stripped"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.stripped.component"
+            version="1.0"/>
+
+
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.60"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="6.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.61"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="6.1"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.70"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="7.0"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.71"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="7.1"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.72"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="7.2"/>
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.73"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="7.3"/>
+      <!-- NEW_SERVER_ADAPTER Add the new runtime to runtime-component mapping above this line -->
+   </extension>
+
+
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.stripped.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.stripped.component"
+            version="1.0"/>
+
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.stripped.component"
+         	version="1.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5"/>
+       <facet id="jst.java" version="1.3,1.4,5.0,6.0,1.7,1.8"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0"/>
+     </supported>
+   </extension>
+
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+       		<runtime-component-type id="org.jboss.ide.eclipse.eap.runtime.component"/>
+       		<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="6.0"/>
+      		<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="6.1"/>
+      		<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="7.0"/>
+      		<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="7.1"/>
+      		<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="7.2"/>
+      		<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="7.3"/>
+            	<!-- NEW_SERVER_ADAPTER Add the new server type above this line -->     
+    			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="6.0"/>
+			   <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0"/>
+		       <facet id="jst.webfragment" version="3.0"/>
+     		</supported>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="6.1"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+		       <facet id="jst.webfragment" version="3.0,3.1"/>
+     		</supported>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="7.0"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+		       <facet id="jst.webfragment" version="3.0,3.1"/>
+     		</supported>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="7.1"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+		       <facet id="jst.webfragment" version="3.0,3.1"/>
+     		</supported>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="7.2"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     		</supported>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="7.3"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     		</supported>
+     		<!-- NEW_SERVER_ADAPTER Add the new server type above this line -->     
+   </extension>
+		
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.component"
+            version="7.0"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.component"
+            version="7.1"/>
+<!-- NEW_SERVER_ADAPTER Add the new server type above this line --> 
+
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.component"
+         	version="7.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0"/>
+       <facet id="jst.webfragment" version="3.0"/>
+     </supported>
+
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.component"
+         	version="7.1"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0"/>
+       <facet id="jst.webfragment" version="3.0"/>
+     </supported>
+     <!-- NEW_SERVER_ADAPTER Add the new server type above this line -->     
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="8.0"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="9.0"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="10.0"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="11.0"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="12.0"/>
+		<!-- NEW_SERVER_ADAPTER Add the new server type above this line -->            
+            
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="8.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1"/>
+     </supported>
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="9.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1"/>
+     </supported>
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="10.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1"/>
+     </supported>
+      <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="11.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1"/>
+     </supported>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="12.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1"/>
+     </supported>
+   </extension>
+     <!-- NEW_SERVER_ADAPTER  Add the new runtime component version and facets above this line -->
+
+
+
+   <extension
+         point="org.eclipse.jst.j2ee.classpathdep">
+      <filteredClasspathContainer
+            containerID="org.jboss.ide.eclipse.as.classpath.core.runtime.ProjectRuntimeInitializer">
+      </filteredClasspathContainer>
+      <filteredClasspathContainer
+            containerID="org.jboss.ide.eclipse.as.classpath.core.ejb3.classpathContainer">
+      </filteredClasspathContainer>
+      <filteredClasspathContainer
+            containerID="org.jboss.ide.eclipse.as.classpath.core.j2ee-1.3">
+      </filteredClasspathContainer>
+      <filteredClasspathContainer
+            containerID="org.jboss.ide.eclipse.as.classpath.core.j2ee-1.4">
+      </filteredClasspathContainer>
+      <filteredClasspathContainer
+            containerID="org.jboss.ide.eclipse.as.classpath.core.javaee-5.0">
+      </filteredClasspathContainer>
+   </extension>
+   
+   
+   
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.defaultFacets">
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.component" version="7.0"></runtime-component>
+         <facet id="jst.java" version="6.0"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.component" version="7.1"></runtime-component>
+         <facet id="jst.java" version="6.0"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.wildfly.component" version="8.0"></runtime-component>
+         <facet id="jst.java" version="1.7"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.wildfly.component" version="9.0"></runtime-component>
+         <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.wildfly.component" version="10.0"></runtime-component>
+         <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.wildfly.component" version="11.0"></runtime-component>
+         <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.as.runtime.wildfly.component" version="12.0"></runtime-component>
+         <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+      <default-facets>
+         <runtime-component id="org.jboss.ide.eclipse.eap.runtime.component" version="6.0"></runtime-component>
+         <facet id="jst.java" version="6.0"></facet>
+      </default-facets>
+      
+      
+      <!-- 
+         Much more configuration needed for eap6.1+ since we support a wider range of facets
+         Basically, we must only set the defaults based on the fixed facet rather than add them 
+         all to a global default list for the runtime component.  
+      -->
+      <default-facets>
+         <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+         <facet id="jst.java" version="6.0"></facet>
+      </default-facets>
+      
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jst.appclient"></fixed-facet>
+        </context>
+         <facet id="jst.appclient" version="6.0"></facet>
+      </default-facets>
+      
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jst.web"></fixed-facet>
+        </context>
+         <facet id="jst.web" version="3.0"></facet>
+      </default-facets>
+         
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jst.ejb"></fixed-facet>
+        </context>
+         <facet id="jst.ejb" version="3.1"></facet>
+      </default-facets>
+      
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jst.ear"></fixed-facet>
+        </context>
+         <facet id="jst.ear" version="6.0"></facet>
+      </default-facets>
+      
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jst.connector"></fixed-facet>
+        </context>
+         <facet id="jst.connector" version="1.6"></facet>
+      </default-facets>
+      
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jst.webfragment"></fixed-facet>
+        </context>
+         <facet id="jst.webfragment" version="3.0"></facet>
+      </default-facets>
+
+      <default-facets>
+        <context>
+          <runtime-component version="6.1" id="org.jboss.ide.eclipse.eap.runtime.component"></runtime-component>
+          <fixed-facet id="jpt.jpa"></fixed-facet>
+        </context>
+         <facet id="jpt.jpa" version="2.1"></facet>
+         <facet id="jst.utility" version="1.0"></facet>
+      </default-facets>
+      
+      <default-facets>
+          <runtime-component id="org.jboss.ide.eclipse.eap.runtime.component" version="7.0"></runtime-component>
+          <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+
+      <default-facets>
+          <runtime-component id="org.jboss.ide.eclipse.eap.runtime.component" version="7.1"></runtime-component>
+          <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+      
+      <default-facets>
+          <runtime-component id="org.jboss.ide.eclipse.eap.runtime.component" version="7.2"></runtime-component>
+          <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+
+      <default-facets>
+          <runtime-component id="org.jboss.ide.eclipse.eap.runtime.component" version="7.3"></runtime-component>
+          <facet id="jst.java" version="1.8"></facet>
+      </default-facets>
+      <!-- NEW_SERVER_ADAPTER Add the new default facet for a new runtime above this line -->
+   </extension>
+
+   <extension
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.jboss.ide.eclipse.as.core.server.internal.launch.RunJarContainerWrapper$RunJarContainerInitializer"
+            id="org.jboss.ide.eclipse.as.core.server.launch.runJarContainer">
+      </classpathContainerInitializer>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.launching.runtimeClasspathEntryResolvers">
+      <runtimeClasspathEntryResolver
+            class="org.jboss.ide.eclipse.as.core.server.internal.launch.RunJarContainerWrapper$RunJarResolver"
+            container="org.jboss.ide.eclipse.as.core.server.launch.runJarContainer"
+            id="org.jboss.ide.eclipse.as.core.server.launch.runJarContainer.resolver">
+      </runtimeClasspathEntryResolver>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.launching.classpathProviders">
+      <classpathProvider
+            class="org.jboss.ide.eclipse.as.core.server.internal.launch.JBossServerDefaultClasspathProvider"
+            id="org.jboss.ide.eclipse.as.core.server.internal.launch.serverClasspathProvider">
+      </classpathProvider>
+   </extension>
+   <extension
+         point="org.eclipse.core.variables.dynamicVariables">
+      <variable
+            name="jboss_server_home"
+            description="Returns the server home for the server who&apos;s name matches the variable, or, if none, the runtime who&apos;s name matches the variable"
+            resolver="org.jboss.ide.eclipse.as.core.resolvers.ConfigNameResolver"
+            supportsArgument="true">
+      </variable>
+      <variable
+            name="jboss_config"
+            description="Returns the configuration name for the server who&apos;s name matches the variable, or, if none, the runtime who&apos;s name matches the variable"
+            resolver="org.jboss.ide.eclipse.as.core.resolvers.ConfigNameResolver"
+            supportsArgument="true">
+      </variable>
+      <variable
+            name="jboss_config_dir"
+            description="Returns the full path of the configuration folder for the server who&apos;s name matches the variable, or, if none, the runtime who&apos;s name matches the variable"
+            resolver="org.jboss.ide.eclipse.as.core.resolvers.ConfigNameResolver"
+            supportsArgument="true">
+      </variable>
+      <variable
+            name="jboss_config_file"
+            description="Returns the full path of the configuration file for the server who&apos;s name matches the variable, or, if none, the runtime who&apos;s name matches the variable"
+            resolver="org.jboss.ide.eclipse.as.core.resolvers.ConfigNameResolver"
+            supportsArgument="true">
+      </variable>
+   </extension>
+   
+   <extension
+          point="org.eclipse.wst.server.core.moduleArtifactAdapters">
+       <moduleArtifactAdapter
+             class="org.jboss.ide.eclipse.as.core.modules.EarArtifactAdapter"
+             id="org.jboss.ide.eclipse.as.core.modules.EarArtifactAdapter"
+             priority="20">
+          <enablement>
+             <with variable="selection">
+                <adapt type="org.eclipse.core.resources.IProject">
+                   <test
+                         forcePluginActivation="true"
+                         property="org.eclipse.wst.common.project.facet.core.projectFacet"
+                         value="jst.ear">
+                   </test>
+                </adapt>
+             </with></enablement>
+       </moduleArtifactAdapter>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.wst.server.core.IServer"
+            class="org.jboss.ide.eclipse.as.core.server.internal.ExtendedServerPropertiesAdapterFactory">
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.ServerExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.JBossExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.management.core.IJBossManagerServiceProvider"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.wst.server.core.IRuntime"
+            class="org.jboss.ide.eclipse.as.core.server.internal.ExtendedServerPropertiesAdapterFactory">
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.ServerExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.JBossExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.management.core.IJBossManagerServiceProvider"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.wst.server.core.IServerType"
+            class="org.jboss.ide.eclipse.as.core.server.internal.ExtendedServerPropertiesAdapterFactory">
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.ServerExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.JBossExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.management.core.IJBossManagerServiceProvider"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.wst.server.core.IRuntimeType"
+            class="org.jboss.ide.eclipse.as.core.server.internal.ExtendedServerPropertiesAdapterFactory">
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.ServerExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.core.server.internal.extendedproperties.JBossExtendedProperties"/>
+         <adapter type="org.jboss.ide.eclipse.as.management.core.IJBossManagerServiceProvider"/>
+      </factory>
+   </extension>
+
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.wst.server.core.IServer"
+            class="org.jboss.ide.eclipse.as.core.server.internal.ServerModeDetailsAdapterFactory">
+         <adapter type="org.jboss.ide.eclipse.as.core.server.IServerModeDetails"/>
+      </factory>
+   </extension>
+
+
+
+
+	<!-- Reboot it all, use subsystems -->
+
+    <extension
+         point="org.jboss.ide.eclipse.as.wtp.core.serverSubsystem">
+      <subsystem
+            system="moduleDeployPath"
+            id="moduleDeployPath.xmlprefs.default"
+            name="Customize Module Deployment Paths"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.ModuleDeployPathController">
+      </subsystem>
+      <subsystemMapping
+            id="moduleDeployPath.xmlprefs.default"
+            mappedId="moduleDeployPath.xmlprefs"
+            serverTypes="%AllJBTServerTypes">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="deploymentOptions"
+            id="deploymentOptions.local.default"
+            name="Server Deployment Settings (Local)"
+            requiresRuntime="true"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.LocalDeploymentOptionsController">
+         <properties>
+            <property key="target" value="local"></property>
+         </properties>
+      </subsystem>
+      <subsystemMapping
+            id="deploymentOptions.local.default"
+            mappedId="deploymentOptions.local"
+            serverTypes="%AllJBTServerTypes">
+      </subsystemMapping>
+
+      
+      <subsystem
+            system="launch"
+            id="launch.standard.local.default"
+            name="Launch JBoss Server (Local)"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.LocalJBossLaunchController">
+      </subsystem>
+      <subsystemMapping
+            id="launch.standard.local.default"
+            mappedId="launch.standard.local"
+            serverTypes="%AllJBossServerTypes">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="serverDetails"
+            id="serverDetails.local.default"
+            name="Server Details (Local)"
+            requiresRuntime="true"
+            class="org.jboss.ide.eclipse.as.core.server.internal.LocalServerModeDetails">
+      </subsystem>
+      <subsystemMapping
+            id="serverDetails.local.default"
+            mappedId="serverDetails.local"
+            serverTypes="%AllJBTServerTypes">
+      </subsystemMapping>
+
+      
+      <subsystem
+            system="shutdown"
+            id="shutdown.legacy.default"
+            name="Shutdown Server"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.LocalLegacyShutdownController">
+      </subsystem>
+      <subsystemMapping
+            id="shutdown.legacy.default"
+            mappedId="shutdown.default"
+            serverTypes="%ServerTypesJBoss6OrLower">
+      </subsystemMapping>
+      
+      <subsystem
+            system="shutdown"
+            id="shutdown.management.as7"
+            name="Shutdown Server via Management"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.ManagementShutdownController">
+      </subsystem>
+      <subsystemMapping
+            id="shutdown.management.as7"
+            mappedId="shutdown.default"
+            serverTypes="%ServerTypesJBoss7OrHigher">
+      </subsystemMapping>
+
+      
+      
+      <subsystem
+            system="filesystem"
+            id="filesystem.local.default"
+            name="Filesystem Support (Local)"
+            class="org.jboss.ide.eclipse.as.wtp.core.server.behavior.LocalFilesystemController">
+      </subsystem>
+      <subsystemMapping
+            id="filesystem.local.default"
+            mappedId="filesystem.local"
+            serverTypes="%AllJBTServerTypes">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="module.restart.behavior"
+            id="module.restart.behavior.regex.default"
+            name="Module Restart Pattern Matcher"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.StandardModuleRestartBehaviorController">
+      </subsystem>
+      <subsystemMapping
+            id="module.restart.behavior.regex.default"
+            mappedId="module.restart.behavior.regex"
+            serverTypes="%AllJBTServerTypes">
+      </subsystemMapping>
+
+      
+      <subsystem
+            system="publish"
+            id="publish.filesystem.standard"
+            name="Filesystem Publish Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.StandardFileSystemPublishController">
+         <dependencies>
+            <requires system="filesystem"></requires>
+            <requires system="moduleDeployPath"></requires>
+            <requires system="deploymentOptions"></requires>
+            <requires system="module.restart.behavior"></requires>
+         </dependencies>
+      </subsystem>
+            <subsystem
+            system="publish"
+            id="publish.filesystem.wildfly"
+            name="WildFly Filesystem Publish Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.WildFlyFileSystemPublishController">
+         <dependencies>
+            <requires system="filesystem"></requires>
+            <requires system="moduleDeployPath"></requires>
+            <requires system="deploymentOptions"></requires>
+            <requires system="module.restart.behavior"></requires>
+         </dependencies>
+      </subsystem>
+      <subsystemMapping
+            id="publish.filesystem.standard"
+            mappedId="publish.filesystem.default"
+            serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+      </subsystemMapping>
+      <subsystemMapping
+            id="publish.filesystem.wildfly"
+            mappedId="publish.filesystem.default"
+            serverTypes="%ServerTypesJBoss7OrHigher">
+      </subsystemMapping>
+
+
+      
+      <!-- A filesystem publish controller that suspends and resumes deployment scanners, for use in as lessthan 7 -->
+      <subsystem
+            system="publish"
+            id="publish.filesystem.suspendScanners"
+            name="Suspended Deployment Scanner Filesystem Publish Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.SuspendedScannersFileSystemPublishController">
+         <dependencies>
+            <requires system="filesystem"></requires>
+            <requires system="moduleDeployPath"></requires>
+            <requires system="deploymentOptions"></requires>
+            <requires system="module.restart.behavior"></requires>
+            <!-- optional dependency on <requires system="moduleState"></requires> -->
+         </dependencies>
+      </subsystem>
+      <subsystemMapping
+            id="publish.filesystem.suspendScanners"
+            mappedId="publish.filesystem.default"
+            serverTypes="%ServerTypesJBoss6OrLower">
+      </subsystemMapping>
+
+
+      <subsystem
+            system="publish"
+            id="publish.management.default"
+            name="Management Publish Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.ManagementPublishController">
+      </subsystem>
+      <subsystemMapping
+            id="publish.management.default"
+            mappedId="publish.management"
+            serverTypes="%ServerTypesJBoss7OrHigher">
+      </subsystemMapping>
+
+      
+	<!-- subsystem for reoslving ports -->
+      <subsystem
+            system="server.ports"
+            id="server.ports.xpaths"
+            name="Port Discovery Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.XPathsPortsController">
+      </subsystem>
+      <subsystemMapping
+            id="server.ports.xpaths"
+            mappedId="server.ports.default"
+            serverTypes="%AllJBossServerTypes">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="modules"
+            id="modules.state.legacy"
+            name="Module Controller"
+            class="org.jboss.ide.eclipse.as.core.server.internal.JBossLT6ModuleStateVerifier">
+      </subsystem>
+      <subsystemMapping
+            id="modules.state.legacy"
+            mappedId="modules.default"
+            serverTypes="%ServerTypesJBossLessThan6">
+      </subsystemMapping>
+
+      <subsystem
+            system="modules"
+            id="modules.state.wf"
+            name="Module Controller"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7ModuleStateVerifier">
+      </subsystem>
+      <subsystemMapping
+            id="modules.state.wf"
+            mappedId="modules.mgmt"
+            serverTypes="%ServerTypesJBoss7OrHigher">
+      </subsystemMapping>
+      
+     <subsystem
+            system="modules"
+            id="modules.state.wf.fs"
+            name="Module Controller (Filesystem)"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.JBoss7FSModuleStateVerifier">
+      </subsystem>
+      <subsystemMapping
+            id="modules.state.wf.fs"
+            mappedId="modules.fs"
+            serverTypes="%ServerTypesJBoss7OrHigher">
+      </subsystemMapping>
+      
+      
+      <!-- Publisher Controllers for specific module types. This one will not be mapped, and will be global  -->
+      <subsystem
+            system="publishDelegate"
+            id="publishDelegate.osgi.default"
+            name="OSGi Module Publish Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.OSGiPublishController">
+            <properties>
+               <property key="moduleType:jboss.osgi" value="true"/>
+            </properties>
+      </subsystem>
+      <subsystemMapping
+            id="publishDelegate.osgi.default"
+            mappedId="publishDelegate.osgi.default"
+            serverTypes="%AllJBTServerTypes">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="launch"
+            id="launch.commandLine.local.default"
+            name="Command Line Launch Controller"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.CommandLineLaunchController">
+      </subsystem>
+      <subsystemMapping
+            id="launch.commandLine.local.default"
+            mappedId="launch.commandLine.local"
+            serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="shutdown"
+            id="shutdown.commandLine.local.default"
+            name="Shutdown Server"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.CommandLineShutdownController">
+         <properties>
+            <property key="target" value="local"></property>
+         </properties>
+      </subsystem>
+      <subsystemMapping
+            id="shutdown.commandLine.local.default"
+            mappedId="shutdown.commandLine.local"
+            serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+      </subsystemMapping>
+      
+      
+      
+      <!-- Some no-op stub implementations -->
+      <subsystem
+            system="modules"
+            id="modules.noop.default"
+            name="Module Controller - Stub Implementation"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.NoOpModuleController">
+      </subsystem>
+      <subsystemMapping
+            id="modules.noop.default"
+            mappedId="modules.noop"
+            serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+      </subsystemMapping>
+
+      <subsystem
+            system="launch"
+            id="launch.noop.default"
+            name="Launch Controller - Stub Implementation"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.NoOpLaunchController">
+      </subsystem>
+      <subsystemMapping
+            id="launch.noop.default"
+            mappedId="launch.noop"
+            serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+      </subsystemMapping>
+      
+      
+      <subsystem
+            system="shutdown"
+            id="shutdown.noop.default"
+            name="Shutdown Controller - Stub Implementation"
+            class="org.jboss.tools.as.core.server.controllable.subsystems.internal.NoOpShutdownController">
+      </subsystem>
+      <subsystemMapping
+            id="shutdown.noop.default"
+            mappedId="shutdown.noop"
+            serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+      </subsystemMapping>
+	</extension>
+	
+	
+	<!-- Local profile -->
+    <extension
+          point="org.jboss.ide.eclipse.as.wtp.core.serverProfile">
+       <serverProfile id="local" serverTypes="%AllJBTServerTypes">
+       	  <description name="Local" description="A profile configured for use on a local machine."/>
+          <subsystem system="deploymentOptions" subsystem="deploymentOptions.local"/>
+          <subsystem system="serverDetails" subsystem="serverDetails.local"/>
+          <subsystem system="filesystem" subsystem="filesystem.local"/>
+       </serverProfile>
+       <serverProfile id="local" serverTypes="%AllJBossServerTypes">
+          <initializer class="org.jboss.tools.as.core.server.controllable.profile.internal.LocalProfileInitializer"/>
+          <subsystem system="launch" subsystem="launch.standard.local"/>
+          <subsystem system="shutdown" subsystem="shutdown.default"/>
+          <subsystem system="publish" subsystem="publish.filesystem.default"/>
+       </serverProfile>
+       <serverProfile id="local" serverTypes="%ServerTypesJBoss7OrHigher">
+ 			<subsystem system="modules" subsystem="modules.fs"/>
+        </serverProfile>
+       <serverProfile id="local" serverTypes="org.jboss.ide.eclipse.as.systemCopyServer">
+          <subsystem system="launch" subsystem="launch.commandLine.local"/>
+          <subsystem system="shutdown" subsystem="shutdown.commandLine.local"/>
+       </serverProfile>
+    </extension>
+
+
+	<!-- Local profile preferring management for as7 or above -->
+    <extension
+          point="org.jboss.ide.eclipse.as.wtp.core.serverProfile">
+       <serverProfile id="local.mgmt" serverTypes="%ServerTypesJBoss7OrHigher">
+          <initializer class="org.jboss.tools.as.core.server.controllable.profile.internal.LocalManagementProfileInitializer"/>
+       	  <description name="Local (Use Management Operations)" description="A profile configured for use on a local machine, using management operations wherever possible."/>
+          <subsystem system="launch" subsystem="launch.standard.local"/>
+          <subsystem system="shutdown" subsystem="shutdown.default"/>
+          <subsystem system="publish" subsystem="publish.management"/>
+          <subsystem system="serverDetails" subsystem="serverDetails.local"/>
+          <subsystem system="modules" subsystem="modules.mgmt"/>
+       </serverProfile>
+    </extension>
+
+
+
+   <!-- 
+          WildFly 13 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.130"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly13.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly13.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.130"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly13.description"
+             name="%jboss.version.wildfly13.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.130"
+             version="13.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.130"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="13.0"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="13.0"/>
+     <supported>
+        <runtime-component
+         id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         version="13.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1"/>
+     </supported>
+   </extension>
+
+   <!-- 
+          WildFly 14 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.140"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly14.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly14.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.140"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly14.description"
+             name="%jboss.version.wildfly14.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.140"
+             version="14.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.140"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="14.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="14.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="14.0"/>
+       <facet id="wst.web"  version="1.0"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 15 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.150"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly15.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly15.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.150"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly15.description"
+             name="%jboss.version.wildfly15.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.150"
+             version="15.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.150"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="15.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="15.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="15.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 16 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.160"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly16.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly16.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.160"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly16.description"
+             name="%jboss.version.wildfly16.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.160"
+             version="16.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.160"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="16.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="16.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="16.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 17 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.170"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly17.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly17.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.170"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly17.description"
+             name="%jboss.version.wildfly17.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.170"
+             version="17.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.170"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="17.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="17.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="17.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 18 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.180"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly18.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly18.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.180"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly18.description"
+             name="%jboss.version.wildfly18.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.180"
+             version="18.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.180"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="18.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="18.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="18.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 19 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.190"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly19.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly19.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.190"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly19.description"
+             name="%jboss.version.wildfly19.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.190"
+             version="19.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0,3.1,4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1,3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.190"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="19.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="19.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="19.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 20 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.200"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly20.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly20.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.200"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly20.description"
+             name="%jboss.version.wildfly20.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.200"
+             version="20.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0, 7.0, 8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6, 1.7"/>
+	  <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.200"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="20.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="20.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="20.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 21 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.210"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly21.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly21.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.210"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly21.description"
+             name="%jboss.version.wildfly21.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.210"
+             version="21.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0, 7.0, 8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6, 1.7"/>
+	  <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.210"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="21.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="21.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="21.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   
+      <!-- 
+          WildFly 22 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.220"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly22.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly22.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.220"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly22.description"
+             name="%jboss.version.wildfly22.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.220"
+             version="22.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0, 7.0, 8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6, 1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.220"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="22.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="22.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="22.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+   <!-- 
+          WildFly 23 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.230"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly23.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly23.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.230"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly23.description"
+             name="%jboss.version.wildfly23.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.230"
+             version="23.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0, 7.0, 8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6, 1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.230"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="23.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="23.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="23.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+
+   <!-- 
+          EAP 7.4 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.eap.version.74.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.74"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.74.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.74"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.74.description"
+             name="%jboss.eap.version.74.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.74"
+             version="7.4">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.74"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="7.4"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+	<runtime-component-type id="org.jboss.ide.eclipse.eap.runtime.component"/>
+	<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="7.4"/>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="7.4"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12,13,14,15,16,17"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     		</supported>
+   </extension>
+   <!-- 
+          WildFly 24 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.240"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly24.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly24.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.240"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly24.description"
+             name="%jboss.version.wildfly24.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.240"
+             version="24.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="2.2, 2.3, 2.4, 2.5, 3.0, 3.1, 4.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0, 7.0, 8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6, 1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.240"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="24.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="24.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="24.0"/>
+       <facet id="wst.web"  version="1.0,1.2,1.3,1.4"/>
+       <facet id="jst.web"  version="2.2,2.3,2.4,2.5,3.0,3.1,4.0"/>
+       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12,13,14,15,16,17"/>
+       <facet id="jst.utility" version="1.0"/>
+       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+       <facet id="jst.webfragment" version="3.0,3.1,4.0"/>
+     </supported>
+   </extension>
+
+   <!-- 
+          EAP 8.0 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.eap.version.80.description"
+            hasConfiguration="false"
+            id="org.jboss.ide.eclipse.as.eap.80"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.eap.version.80.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.80"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%enterpriseProviderName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalJBoss71ServerRuntime"
+             description="%jboss.eap.version.80.description"
+             name="%jboss.eap.version.80.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.eap.80"
+             version="8.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0"/>
+          <moduleType types="wst.web" versions="1.0,1.2,1.3,1.4"/>
+          <moduleType types="jst.web" versions="4.0, 5.0, 6.0"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2, 4.0"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.eap.80"
+            runtime-component="org.jboss.ide.eclipse.eap.runtime.component"
+            version="8.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+	<runtime-component-type id="org.jboss.ide.eclipse.eap.runtime.component"/>
+	<runtime-component-version
+            	type="org.jboss.ide.eclipse.eap.runtime.component"
+            	version="8.0"/>
+   			<supported>
+        		<runtime-component
+         			id="org.jboss.ide.eclipse.eap.runtime.component"
+         			version="8.0"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="5.0, 6.0"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12,13,14,15,16,17"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0"/>
+		       <facet id="jst.webfragment" version="4.0,5.0,6.0,6.1"/>
+     		</supported>
+   </extension>
+   <!-- 
+          WildFly 27 - All extensions here          
+   -->
+   <extension point="org.eclipse.wst.server.core.serverTypes">
+      <serverType
+            id="org.jboss.ide.eclipse.as.wildfly.270"
+            behaviourClass="org.jboss.tools.as.core.server.controllable.internal.DeployableServerBehavior"
+            class="org.jboss.ide.eclipse.as.core.server.internal.v7.Wildfly8Server"
+            description="%jboss.version.wildfly27.description"
+            hasConfiguration="false"
+            initialState="stopped"
+            launchConfigId="org.jboss.ide.eclipse.as.core.server.startupConfiguration"
+            launchModes="run,debug,profile"
+            name="%jboss.version.wildfly27.name"
+            runtime="false"
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.270"
+            startBeforePublish="false"
+            startTimeout="450000"
+            stopTimeout="450000"
+            supportsRemoteHosts="true"/>
+   </extension>
+
+   <extension point="org.eclipse.wst.server.core.runtimeTypes">
+      <runtimeType
+             vendor="%providerName"
+             class="org.jboss.ide.eclipse.as.core.server.internal.v7.LocalWildfly80ServerRuntime"
+             description="%jboss.version.wildfly27.description"
+             name="%jboss.version.wildfly27.runtime.name"
+             id="org.jboss.ide.eclipse.as.runtime.wildfly.270"
+             version="27.0">
+          <moduleType types="jst.appclient" versions="5.0, 6.0,7.0,8.0,9.0,10.0"/>
+          <moduleType types="wst.web" versions="1.0"/>
+          <moduleType types="jst.web" versions="4.0, 5.0, 6.0, 6.1"/>
+          <moduleType types="jst.ejb" versions="1.0, 1.1, 2.0, 2.1, 3.0, 3.1, 3.2, 4.0"/>
+          <moduleType types="jst.ear" versions="1.2, 1.3, 1.4, 5.0, 6.0,7.0,8.0,9.0,10.0"/>
+          <moduleType types="jst.connector" versions="1.0, 1.5, 1.6,1.7"/>
+          <moduleType types="jst.utility" versions="1.0"/>
+          <moduleType types="jboss.package" versions="1.0"/>
+          <moduleType types="jboss.singlefile" versions="1.0"/>
+          <moduleType types="jst.jboss.sar" versions="1.0"/>
+          <moduleType types="jbt.bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="bpel.module" versions="1.1, 2.0"/>
+          <moduleType types="jboss.osgi" versions="1.0"/>
+      </runtimeType>
+   </extension>
+   <extension point="org.eclipse.jst.server.core.runtimeFacetMappings">
+      <runtimeFacetMapping
+            runtimeTypeId="org.jboss.ide.eclipse.as.runtime.wildfly.270"
+            runtime-component="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="27.0"/>
+   </extension>
+	<extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <runtime-component-type id="org.jboss.ide.eclipse.as.runtime.wildfly.component"/>
+      <runtime-component-version
+            type="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+            version="27.0"/>
+     <supported>
+        <runtime-component
+         	id="org.jboss.ide.eclipse.as.runtime.wildfly.component"
+         	version="27.0"/>
+		       <facet id="wst.web"  version="1.0"/>
+		       <facet id="jst.web"  version="5.0, 6.0, 6.1"/>
+		       <facet id="jst.java" version="5.0,6.0,1.7,1.8,9,10,11,12,13,14,15,16,17"/>
+		       <facet id="jst.utility" version="1.0"/>
+		       <facet id="jst.connector" version="1.0,1.5,1.6,1.7"/>
+		       <facet id="jst.ejb" version="2.0,2.1,3.0,3.1,3.2,4.0"/>
+		       <facet id="jst.ear" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0,9.0,10.0"/>
+		       <facet id="jst.appclient" version="1.2,1.3,1.4,5.0,6.0,7.0,8.0,9.0,10.0"/>
+		       <facet id="jst.webfragment" version="4.0,5.0,6.0,6.1"/>
+     </supported>
+   </extension>
+<!-- AUTOGEN_SERVER_ADAPTER_CHUNK -->
+</plugin>

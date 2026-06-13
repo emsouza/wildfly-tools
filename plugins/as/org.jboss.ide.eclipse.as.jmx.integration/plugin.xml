@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.jboss.ide.eclipse.as.core.jmxRunner">
+      <jmxRunner
+            class="org.jboss.ide.eclipse.as.jmx.integration.JBossServerJMXRunner">
+      </jmxRunner>
+   </extension>
+   <extension
+         point="org.jboss.tools.jmx.core.MBeanServerConnectionProvider">
+      <connectionProvider
+            class="org.jboss.ide.eclipse.as.jmx.integration.JBoss3To6ConnectionProvider">
+      </connectionProvider>
+      <connectionProvider
+            class="org.jboss.ide.eclipse.as.jmx.integration.JBoss70ConnectionProvider">
+      </connectionProvider>
+      <connectionProvider
+            class="org.jboss.ide.eclipse.as.jmx.integration.JBoss71ConnectionProvider">
+      </connectionProvider>
+   </extension>
+   
+	<!-- JMX Stuff -->
+	<extension
+         point="org.jboss.tools.jmx.ui.providerUI">
+      <providerUI
+            icon="$nl$/icons/jboss.png"
+            id="org.jboss.ide.eclipse.as.core.extensions.jmx.JBossServerConnectionProvider"
+            name="JBoss Server"/>
+      <providerUI
+            icon="$nl$/icons/jboss.png"
+            id="org.jboss.ide.eclipse.as.core.extensions.jmx.JBoss70ConnectionProvider"
+            name="JBoss Server"/>
+      <providerUI
+            icon="$nl$/icons/jboss.png"
+            id="org.jboss.ide.eclipse.as.core.extensions.jmx.JBoss71ServerConnectionProvider"
+            name="JBoss Server"/>
+   </extension>
+
+   <extension
+         point="org.jboss.ide.eclipse.as.core.pollers">
+      <serverPoller
+            class="org.jboss.ide.eclipse.as.jmx.integration.JMXPoller"
+            id="org.jboss.ide.eclipse.as.core.runtime.server.JMXPoller"
+            name="JMX"
+            serverTypes="org.jboss.ide.eclipse.as.32,org.jboss.ide.eclipse.as.40,org.jboss.ide.eclipse.as.42,org.jboss.ide.eclipse.as.50,org.jboss.ide.eclipse.as.51,org.jboss.ide.eclipse.as.60,org.jboss.ide.eclipse.as.eap.43,org.jboss.ide.eclipse.as.eap.50"
+            supportsShutdown="true"
+            supportsStartup="true"/>
+   </extension>
+   
+   <extension
+         point="org.jboss.ide.eclipse.as.core.pollerFailureHandler">
+      <pollerHandler
+            class="org.jboss.ide.eclipse.as.jmx.integration.SecurityFailureHandler"
+            id="org.jboss.ide.eclipse.as.ui.launch.jmxSecurityCredentialProvider">
+      </pollerHandler>
+   </extension>
+	<extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.jboss.ide.eclipse.as.core.server.internal.JBossServer"
+            class="org.jboss.ide.eclipse.as.jmx.integration.JBossServerConnectionAdapterFactory">
+         <adapter type="org.jboss.tools.jmx.core.IConnectionWrapper"/>
+      </factory>
+   </extension>
+	
+	
+</plugin>

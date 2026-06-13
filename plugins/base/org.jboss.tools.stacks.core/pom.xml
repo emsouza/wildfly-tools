@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jboss.tools</groupId>
+    <artifactId>wildfly-tools</artifactId>
+    <version>4.5.0-SNAPSHOT</version>
+    <relativePath>../../../pom.xml</relativePath>
+  </parent>
+  <groupId>org.jboss.tools.stacks.plugins</groupId>
+	<artifactId>org.jboss.tools.stacks.core</artifactId> 
+	
+	<packaging>eclipse-plugin</packaging>
+
+	<properties>
+		<yaml.version>2.6</yaml.version>
+		<junit.version>4.10</junit.version>
+		<jboss.logging.version>3.1.2.GA</jboss.logging.version>
+		<stacks.version>1.0.3.Final</stacks.version>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>get-stacks</id>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>org.jboss.jdf</groupId>
+							<artifactId>stacks-client</artifactId>
+
+						</artifactItem>
+						<artifactItem>
+							<groupId>org.yaml</groupId>
+							<artifactId>snakeyaml</artifactId>
+
+						</artifactItem>
+						<artifactItem>
+							<groupId>org.jboss.logging</groupId>
+							<artifactId>jboss-logging</artifactId>
+
+						</artifactItem>
+					</artifactItems>
+					<skip>false</skip>
+					<outputDirectory>${basedir}/lib/</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+			  <!-- make sure lib dir is removed after clean to avoid "dirty" build -->
+			  <artifactId>maven-clean-plugin</artifactId>
+			  <configuration>
+			    <filesets>
+			      <fileset>
+				<directory>${basedir}/lib</directory>
+			      </fileset>
+			    </filesets>
+			  </configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+</project>

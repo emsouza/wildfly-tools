@@ -1,0 +1,8 @@
+ properties.0.name = org.eclipse.wst.server.core.serverAdapter
+ properties.0.value = true
+
+instructions.configure=\
+org.eclipse.equinox.p2.touchpoint.eclipse.addJvmArg(jvmArg:--add-opens=java.base/java.security=ALL-UNNAMED);
+
+instructions.unconfigure=\
+org.eclipse.equinox.p2.touchpoint.eclipse.removeJvmArg(jvmArg:--add-opens=java.base/java.security=ALL-UNNAMED);

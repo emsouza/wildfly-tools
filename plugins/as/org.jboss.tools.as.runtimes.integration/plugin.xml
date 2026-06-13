@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.runtime.core.downloadRuntimeProvider">
+      <provider
+            class="org.jboss.tools.as.runtimes.integration.internal.DownloadRuntimesProvider">
+      </provider>
+   </extension>
+	<extension
+         point="org.jboss.tools.runtime.core.runtimeDetectors">
+    	<runtimeDetector 
+    	    id="org.jboss.tools.runtime.handlers.JBossASHandler"
+    		name="JBoss AS"
+       		class="org.jboss.tools.as.runtimes.integration.internal.JBossASHandler"
+       		preferenceId="org.eclipse.wst.server.ui.runtime.preferencePage"
+       		priority="100"/>
+	</extension>
+ <extension
+       point="org.jboss.tools.runtime.core.runtimeDetectionResolutionProvider">
+    <resolutionProvider
+          class="org.jboss.tools.as.runtimes.integration.internal.MissingJREProblemResolutionProvider"
+          weight="10">
+    </resolutionProvider>
+ </extension>
+ <extension
+       point="org.jboss.tools.runtime.ui.workflowProvider">
+    <provider
+          class="org.jboss.tools.as.runtimes.integration.ui.wizard.DataVirt62FragmentProvider"
+          id="org.jboss.tools.as.runtimes.integration.datavirt62"
+          weight="5">
+    </provider>
+ </extension>
+</plugin>

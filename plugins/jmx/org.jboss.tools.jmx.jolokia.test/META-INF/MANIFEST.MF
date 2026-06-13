@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jolokia Client Tests
+Bundle-SymbolicName: org.jboss.tools.jmx.jolokia.test;singleton:=true
+Bundle-Version: 4.5.0.qualifier
+Bundle-Vendor: Red Hat, Inc.
+Fragment-Host: org.jboss.tools.jmx.jolokia
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.junit;bundle-version="4.0.0"

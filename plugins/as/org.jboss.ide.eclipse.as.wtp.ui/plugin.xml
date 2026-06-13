@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="ServerProfileWizardFragments" name="ServerProfileWizardFragments" schema="schema/ServerProfileWizardFragments.exsd"/>
+    <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="org.eclipse.jst.j2ee.internal"
+            class="org.jboss.ide.eclipse.as.wtp.ui.wizards.xpl.export.ProjectModuleExportWizard"
+            icon="$nl$/icons/jar_obj.gif"
+            id="org.jboss.ide.eclipse.as.wtp.ui.wizards.export.ProjectModuleExportWizard"
+            name="Module Archive">
+         <description>
+            Export any Flexible Module projects into a zipped archive. A "Flexible Project" is a project with the ModuleCore nature.
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+    </extension>
+    
+    <extension
+          point="org.eclipse.ui.commands">
+       <command
+             categoryId="org.jboss.ide.eclipse.as.wtp.ui.commands.modules"
+             defaultHandler="org.jboss.ide.eclipse.as.wtp.ui.commands.FullPublishCommandHandler"
+             id="org.jboss.ide.eclipse.as.wtp.ui.fullPublishCommand"
+             name="Full Publish Module">
+       </command>
+       <command
+             categoryId="org.jboss.ide.eclipse.as.wtp.ui.commands.modules"
+             defaultHandler="org.jboss.ide.eclipse.as.wtp.ui.commands.RestartModuleCommandHandler"
+             id="org.jboss.ide.eclipse.as.wtp.ui.restartModuleCommand"
+             name="Restart Module">
+       </command>
+      <category
+            description="Commands related to modules"
+            id="org.jboss.ide.eclipse.as.wtp.ui.commands.modules"
+            name="Modules">
+      </category>
+    </extension>
+    <extension
+          point="org.eclipse.ui.bindings">
+       <key
+             commandId="org.jboss.ide.eclipse.as.wtp.ui.fullPublishCommand"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="M3+M2+Y F">
+       </key>
+       <key
+             commandId="org.jboss.ide.eclipse.as.wtp.ui.restartModuleCommand"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="M3+M2+Y G">
+       </key>
+    </extension>
+    
+    
+    
+    
+   	<extension
+      point="org.eclipse.ui.navigator.navigatorContent">
+    <actionProvider
+          class="org.jboss.ide.eclipse.as.wtp.ui.view.server.jmx.JMXProvider$ActionProvider"
+          id="org.jboss.ide.eclipse.as.ui.extensions.showInJMXView">
+       <enablement>
+          <instanceof
+                value="org.eclipse.wst.server.core.IServer">
+          </instanceof>
+       </enablement>
+    </actionProvider>
+    <navigatorContent
+          name="JMX"
+          id="org.jboss.ide.eclipse.as.ui.extensions.jmx"
+          icon="$nl$/icons/jmeth_obj.gif"
+          activeByDefault="true"
+          priority="low"
+          contentProvider="org.jboss.ide.eclipse.as.wtp.ui.view.server.jmx.JMXProvider$ContentProvider"
+          labelProvider="org.jboss.ide.eclipse.as.wtp.ui.view.server.jmx.JMXProvider$LabelProvider">
+       <triggerPoints>
+          <instanceof
+                value="org.eclipse.wst.server.core.IServer">
+          </instanceof>
+       </triggerPoints>
+       <possibleChildren>
+          <or>
+             <instanceof
+                   value="org.jboss.tools.jmx.core.tree.Node">
+             </instanceof>
+             <instanceof
+                   value="org.jboss.tools.jmx.ui.internal.views.navigator.MBeanExplorerContentProvider$DelayProxy">
+             </instanceof>
+             <instanceof
+                   value="org.jboss.tools.jmx.core.MBeanFeatureInfoWrapper">
+             </instanceof>
+          </or>
+       </possibleChildren>
+    </navigatorContent>    
+    </extension>
+    	<extension
+	      point="org.eclipse.ui.navigator.viewer">
+	   <viewerContentBinding
+	         viewerId="org.eclipse.wst.server.ui.ServersView">
+	      <includes>
+             <contentExtension
+                   isRoot="false"
+                   pattern="org.jboss.ide.eclipse.as.ui.extensions.jmx">
+             </contentExtension>
+             <contentExtension
+                   isRoot="false"
+                   pattern="org.jboss.tools.jmx.ui.internal.views.navigator.JMXLinkHelper">
+             </contentExtension>
+	      </includes>
+	   </viewerContentBinding>
+    <viewerActionBinding
+          viewerId="org.eclipse.wst.server.ui.ServersView">
+       <includes>
+          <actionExtension
+                pattern="org.jboss.ide.eclipse.as.ui.extensions.showInJMXView"/>
+          <actionExtension
+                pattern="org.jboss.tools.jmx.ui.internal.views.navigator.actionProvider">
+          </actionExtension>
+       </includes>
+    </viewerActionBinding>
+	</extension>
+    
+    
+    
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+
+      <propertyContributor contributorId="org.eclipse.wst.server.ui.ServersView">
+         <propertyCategory category="org.eclipse.wst.server.ui.ServersView"/>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="org.eclipse.wst.server.ui.ServersView">
+         <propertyTab
+               category="org.eclipse.wst.server.ui.ServersView"
+               id="org.eclipse.wst.server.ui.ServersView.PropertiesTab"
+               label="Properties"/>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="org.eclipse.wst.server.ui.ServersView">
+         <propertySection
+               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+               id="PropertiesSection"
+               filter="org.jboss.ide.eclipse.as.wtp.ui.view.server.ServerViewPropertiesSectionFilter"
+               tab="org.eclipse.wst.server.ui.ServersView.PropertiesTab">
+         </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.wst.server.ui.internal.cnf.ServersView2"
+            class="org.jboss.ide.eclipse.as.wtp.ui.view.server.ServerViewPropertiesAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySheetPage">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         point="org.jboss.ide.eclipse.as.wtp.core.consoleWriter">
+      <consoleWriter
+            class="org.jboss.ide.eclipse.as.wtp.ui.console.ServerConsoleWriter">
+      </consoleWriter>
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="org.jboss.ide.eclipse.as.wtp.ui.console.ServerConsolePagePaticipant"
+            id="org.jboss.ide.eclipse.as.wtp.ui.console.ServerConsolePagePaticipant">
+         <enablement>
+            <test
+                  property="org.eclipse.ui.console.consoleTypeTest"
+                  value="org.jboss.ide.eclipse.as.wtp.ui.console.ServerConsole">
+            </test>
+         </enablement>
+      </consolePageParticipant>
+   </extension> 
+    
+</plugin>

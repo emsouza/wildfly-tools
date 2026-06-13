@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<description>
+	To install these features, point Eclipse at this site.
+	</description>
+
+	<category-def label="JBoss Tools Server Nightly Build Update Site" name="AllFeatures">
+		<description>JBoss Tools Server Nightly Build Update Site: contains all features in this build.</description>
+	</category-def>
+	
+	<feature id="org.jboss.ide.eclipse.as.feature">
+		<category name="AllFeatures" />
+	</feature>
+	<feature id="org.jboss.ide.eclipse.archives.feature">
+		<category name="AllFeatures"/>
+	</feature>
+	<feature id="org.jboss.tools.archives.scanner.feature">
+		<category name="AllFeatures"/>
+	</feature>
+	<feature id="org.jboss.tools.jmx.feature">
+		<category name="AllFeatures"/>
+	</feature>
+	<feature id="org.jboss.tools.runtime.core.feature">
+		<category name="AllFeatures"/>
+	</feature>
+	<feature id="org.jboss.tools.stacks.core.feature">
+		<category name="AllFeatures"/>
+	</feature>
+	<feature id="org.jboss.tools.foundation.license.feature">
+		<category name="AllFeatures"/>
+	</feature>
+
+</site>

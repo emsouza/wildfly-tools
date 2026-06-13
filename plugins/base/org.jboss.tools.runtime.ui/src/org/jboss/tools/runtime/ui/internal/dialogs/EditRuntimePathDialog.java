@@ -1,0 +1,157 @@
+/*************************************************************************************
+ * Copyright (c) 2010-2011 Red Hat, Inc. and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     JBoss by Red Hat - Initial implementation.
+ ************************************************************************************/
+package org.jboss.tools.runtime.ui.internal.dialogs;
+
+import java.io.File;
+
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.jboss.tools.runtime.core.model.RuntimeDefinition;
+import org.jboss.tools.runtime.core.model.RuntimePath;
+import org.jboss.tools.runtime.ui.RuntimeUIActivator;
+import org.jboss.tools.runtime.ui.internal.Messages;
+import org.jboss.tools.runtime.ui.internal.preferences.JBossRuntimePreferencesInitializer;
+
+/**
+ * @author snjeza
+ * 
+ */
+public class EditRuntimePathDialog extends Dialog {
+	
+	private RuntimePath runtimePath;
+	private RuntimeCheckboxTreeViewer treeViewer;
+
+	public EditRuntimePathDialog(Shell parentShell, RuntimePath runtimePath) {
+		super(parentShell);
+		setShellStyle(SWT.CLOSE | SWT.MAX | SWT.TITLE | SWT.BORDER
+				| SWT.RESIZE | getDefaultOrientation());
+		this.runtimePath = runtimePath;
+	}
+
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		getShell().setText(Messages.EditRuntimePathDialog_Edit_runtime_detection_path);
+		Composite area = (Composite) super.createDialogArea(parent);
+		Composite contents = new Composite(area, SWT.NONE);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.heightHint = 400;
+		gd.widthHint = 700;
+		contents.setLayoutData(gd);
+		contents.setLayout(new GridLayout(1, false));
+		applyDialogFont(contents);
+		initializeDialogUnits(area);
+
+		Composite pathComposite = new Composite(contents, SWT.NONE);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+		pathComposite.setLayoutData(gd);
+		pathComposite.setLayout(new GridLayout(3, false));
+		Label pathLabel = new Label(pathComposite, SWT.NONE);
+		pathLabel.setText(Messages.EditRuntimePathDialog_Path);
+		
+		final Text pathText = new Text(pathComposite, SWT.BORDER);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+		pathText.setLayoutData(gd);
+		pathText.setText(runtimePath.getPath());
+		
+		Button browseButton = new Button(pathComposite, SWT.NONE);
+		browseButton.setText(Messages.EditRuntimePathDialog_Browse);
+		browseButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IDialogSettings dialogSettings = RuntimeUIActivator.getDefault().getDialogSettings();
+				
+				DirectoryDialog dialog = new DirectoryDialog(getShell());
+				dialog.setMessage(Messages.EditRuntimePathDialog_Edit_Path);
+				dialog.setFilterPath(pathText.getText());
+				final String path = dialog.open();
+				if (path == null) {
+					return;
+				}
+				runtimePath.setPath(path);
+				dialogSettings.put(JBossRuntimePreferencesInitializer.LASTPATH, path);
+				pathText.setText(path);
+				refreshRuntimes(getShell(), 
+						new RuntimePath[]{runtimePath}, treeViewer, false);
+			}
+		
+		});
+		
+		Label refreshLabel = new Label(pathComposite, SWT.NONE);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+		gd.horizontalSpan = 2;
+		refreshLabel.setLayoutData(gd);
+		refreshLabel.setText(Messages.EditRuntimePathDialog_Runtimes_found_at_this_path);
+		
+		final Button refreshButton = new Button(pathComposite, SWT.NONE);
+		refreshButton.setText(Messages.EditRuntimePathDialog_Refresh);
+		refreshButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				refreshRuntimes(getShell(), 
+						new RuntimePath[]{runtimePath}, treeViewer, false);
+			}
+		});
+		
+		pathText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				runtimePath.setPath(pathText.getText());
+				if (!pathText.getText().isEmpty()) {
+					refreshButton.setEnabled( (new File(pathText.getText()).isDirectory()) );
+				}
+			}
+		});
+		refreshButton.setEnabled( (new File(pathText.getText()).isDirectory()) );
+		
+		treeViewer = createRuntimeViewer(new RuntimePath[]{runtimePath}, contents, 100);
+		treeViewer.addCheckStateListener(new ICheckStateListener() {
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				RuntimeDefinition definition = (RuntimeDefinition) event.getElement();
+				definition.setEnabled(!definition.isEnabled());
+			}
+		});
+		return area;
+	}
+	
+	private RuntimeCheckboxTreeViewer createRuntimeViewer(final RuntimePath[] runtimePaths2, Composite composite, int heightHint) {
+		return new RuntimeCheckboxTreeViewer(composite, runtimePaths2, heightHint);
+	}
+	
+	public static void refreshRuntimes(Shell shell, final RuntimePath[] runtimePaths, 
+			final RuntimeCheckboxTreeViewer viewer, boolean needRefresh) {
+		SearchRuntimePathDialog dialog = SearchRuntimePathDialog.launchSearchRuntimePathDialog(
+				shell, runtimePaths, needRefresh, 15);
+		if (viewer != null) {
+			dialog.getShell().addDisposeListener(new DisposeListener() {
+				public void widgetDisposed(DisposeEvent e) {
+					viewer.updateInput(runtimePaths);
+				}
+			});
+		}
+	}
+}

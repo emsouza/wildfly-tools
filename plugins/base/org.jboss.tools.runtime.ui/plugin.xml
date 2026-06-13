@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="workflowProvider" name="org.jboss.tools.runtime.ui.workflowProvider" schema="schema/workflowProvider.exsd"/>
+
+   <extension
+        point="org.eclipse.ui.preferencePages">
+     <page
+           category="org.jboss.tools.common.model.ui.MainPreferencePage"
+           class="org.jboss.tools.runtime.ui.internal.preferences.RuntimePreferencePage"
+           id="org.jboss.tools.runtime.preferences.RuntimePreferencePage"
+           name="%JBoss_Runtimes"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.jboss.tools.runtime.ui.internal.startup.RuntimeScanner"></startup>
+   </extension>
+   
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.runtime.ui.internal.preferences.JBossRuntimePreferencesInitializer"/>
+   </extension>
+   
+   <extension point="org.eclipse.ui.newWizards">
+    <category
+            name="%JBoss_Tools_category"
+            id="org.jboss.ide.eclipse.ui.wizards">
+      </category>
+    <wizard
+          category="org.jboss.ide.eclipse.ui.wizards"
+          class="org.jboss.tools.runtime.ui.internal.wizard.DownloadRuntimesWizard"
+          icon="icons/xpl/search_local.png"
+          id="org.jboss.tools.runtime.ui.wizard.DownloadRuntimesWizard"
+          name="%Download_Runtimes_wizard">
+    </wizard>
+  </extension>
+   <extension
+         point="org.jboss.tools.runtime.ui.workflowProvider">
+      <provider
+            class="org.jboss.tools.runtime.ui.internal.wizard.workflow.DownloadManagerWorkflowProvider"
+            id="org.jboss.tools.runtime.ui.downloadmgr.jdf"
+            weight="10">
+      </provider>
+   </extension>
+  
+</plugin>

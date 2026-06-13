@@ -1,0 +1,49 @@
+# Auto-detect text files
+* text=auto
+
+# Java source
+*.java text diff=java
+*.properties text
+
+# XML
+*.xml text diff=xml
+*.xsd text
+*.exsd text
+*.tld text
+*.tag text
+
+# Scripts
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Build / config
+*.MF text
+*.xml text
+*.properties text
+*.mxl text
+
+# Documentation
+*.md text
+*.txt text
+*.html text diff=html
+.about text
+
+# Binary - images
+*.png binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.bmp binary
+
+# Binary - archives
+*.jar binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+
+# Binary - Eclipse binary artifacts
+*.class binary
+*.dex binary

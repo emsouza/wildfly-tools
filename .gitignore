@@ -1,0 +1,54 @@
+# Maven / Tycho build output
+target/
+bin/
+
+# Generated JARs (build artifacts, not sources)
+*.jar
+!**/lib/truezip-kernel-*.jar
+!**/lib/truezip-file-*.jar
+!**/lib/truezip-driver-zip-*.jar
+
+# Build dependency directories
+lib/
+
+# Eclipse PDE generated files
+*.deleted
+*.generated
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE - Eclipse (generated, not versioned)
+.factorypath
+*.launch
+.project
+.classpath
+.settings/
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# IDE - NetBeans
+nb-configuration.xml
+nbactions.xml
+nbproject/
+
+# IDE - VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Generated config
+ide-config.properties
+
+# Test results (when added in future)
+test-reports/
+*-reports/
