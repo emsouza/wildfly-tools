@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<target includeMode="feature" name="wildfly-tools-2026-06">
+  <locations>
+    <!-- SimRel 2026-06 (Eclipse 4.40) -->
+    <location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/releases/2026-06/"/>
+
+      <!-- Core Platform -->
+      <unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.rcp.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.help.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.equinox.server.core.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.equinox.server.jetty.feature.group" version="0.0.0"/>
+
+      <!-- EMF -->
+      <unit id="org.eclipse.emf.common.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.emf.ecore.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.emf.edit.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
+
+      <!-- WTP -->
+      <unit id="org.eclipse.wst.common_core.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.common_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.server_core.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.server_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.server_core.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.server_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.server_adapters.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.server_adapters.ext.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.web_core.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.enterprise_core.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.xml_core.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.wst.xml_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
+
+      <!-- DTP bundles needed by JBoss Tools -->
+      <unit id="org.eclipse.datatools.connectivity" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.connectivity.db.generic" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.connectivity.oda" version="0.0.0"/>
+
+      <!-- EGit/JGit -->
+      <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.jgit.feature.group" version="0.0.0"/>
+
+      <!-- Individual bundles from Orbit -->
+      <unit id="org.apache.commons.lang3" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-io" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-compress" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-codec" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-logging" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-annotations" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-core" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="0.0.0"/>
+      <unit id="org.apache.httpcomponents.httpcore" version="0.0.0"/>
+      <unit id="jakarta.xml.bind-api" version="0.0.0"/>
+      <unit id="jakarta.servlet-api" version="0.0.0"/>
+      <unit id="jakarta.annotation-api" version="0.0.0"/>
+      <unit id="jakarta.inject.jakarta.inject-api" version="0.0.0"/>
+      <unit id="jakarta.ws.rs-api" version="0.0.0"/>
+    </location>
+
+    <!-- m2e -->
+    <location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/technology/m2e/releases/latest/"/>
+      <unit id="org.eclipse.m2e.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.m2e.logback.feature.feature.group" version="0.0.0"/>
+    </location>
+  </locations>
+</target>

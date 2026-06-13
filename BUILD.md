@@ -6,9 +6,9 @@ This is a Maven/Tycho-based Eclipse plugin project for WildFly server adapters. 
 
 ## Prerequisites
 
-- **Java 17+** (recommended)
+- **Java 21+**
 - **Maven 3.8+**
-- **Eclipse Target Platform** (configured via `target-platform` profile)
+- **No external target platform artifact needed** — the target platform definition is included in the project at `targetplatform/wildfly-tools.target`
 
 ## Build Commands
 
@@ -18,12 +18,6 @@ Tests run by default. Use `-DskipTests` to skip them (not recommended).
 
 ```bash
 mvn clean install
-```
-
-### Build with Target Platform
-
-```bash
-mvn clean install -P target-platform
 ```
 
 ### Build Specific Module
@@ -58,14 +52,18 @@ mvn clean install -o
 
 | Profile | Description |
 |---------|-------------|
-| `target-platform` | Uses JBoss Tools target platform from repository |
-| `multiple.target` | Uses multiple target platforms |
+| `target-platform` | Uses the project's built-in target platform file (`targetplatform/wildfly-tools.target`). Active by default. |
+| `no-target-platform` (`-Dno-target-platform`) | Skips explicit target platform; Tycho resolves from declared p2 repositories. |
+
+The `target-platform` profile uses `targetplatform/wildfly-tools.target` which defines the Eclipse 2026-06 SimRel repository with all required features and Orbit bundles.
 
 ## Project Structure
 
 ```
 wildfly-tools/
 ├── pom.xml                    # Parent POM (version: 4.5.0-SNAPSHOT)
+├── targetplatform/            # Target platform definition
+│   └── wildfly-tools.target   # Eclipse 2026-06 target platform
 ├── plugins/
 │   ├── base/                  # Core foundation plugins
 │   ├── as/                    # Application Server plugins
@@ -90,30 +88,40 @@ mvn versions:set -DnewVersion=4.6.0-SNAPSHOT
 
 If you see errors like:
 ```
-Missing requirement: ... requires 'org.eclipse.equinox.p2.iu; org.eclipse.jdt.ui 4.5.0.qualifier'
+Missing requirement: ... requires 'org.eclipse.equinox.p2.iu; org.eclipse.jdt.ui ...'
 ```
 
 The target platform is not properly configured. Ensure:
-1. Target platform profile is activated: `-P target-platform`
-2. Network access to JBoss repositories
-3. Correct Eclipse version in target platform definition
+1. The `.target` file in `targetplatform/` is correct and the repository URLs are accessible
+2. Network access to `https://download.eclipse.org/releases/2026-06/` and similar p2 repositories
+3. The Eclipse version in the target platform matches the project requirements
 
-### Tycho Version
+### Corrupted Maven Cache
 
-Tycho version: `5.0.3` (defined in parent POM property `tychoVersion`)
+If you get errors about `content.xml` or unresolved artifacts:
+```bash
+rm -rf ~/.m2/repository
+mvn clean install
+```
+
+### Tycho & Encoding
+
+- **Tycho version:** `5.0.3` (defined in parent POM property `tychoVersion`)
+- **Source encoding:** UTF-8 (configured via `project.build.sourceEncoding` in parent POM)
+- **Java compliance:** 21 (configured via `maven.compiler.source`/`target`)
 
 ## IDE Import
 
 1. Install **m2e** and **Tycho Configurator** in Eclipse
 2. Import as **Existing Maven Projects**
-3. Enable **Target Platform** via Preferences > Plug-in Development > Target Platform
+3. Set the target platform to the project's `targetplatform/wildfly-tools.target` file via Preferences > Plug-in Development > Target Platform
 
 ## CI/CD
 
 For automated builds, ensure:
-- Maven settings.xml has JBoss repository credentials
-- Target platform is available (cache or local mirror)
-- Java 17+ is used
+- Network access to p2 repositories (Eclipse 2026-06, m2e, etc.)
+- Java 21+ is used
+- Maven 3.8+ is used
 
 ## Useful Commands
 

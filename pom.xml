@@ -13,14 +13,9 @@
 		<tychoVersion>5.0.3</tychoVersion>
 		<targetEclipseVersion>4.40 (2026-06)</targetEclipseVersion>
 		<eclipseReleaseName>2026-06</eclipseReleaseName>
-		<TARGET_PLATFORM_VERSION_MAX>4.40.0.Final-SNAPSHOT</TARGET_PLATFORM_VERSION_MAX>
-		<TARGET_PLATFORM_VERSION_MIN>${TARGET_PLATFORM_VERSION_MAX}</TARGET_PLATFORM_VERSION_MIN>
-		<TARGET_PLATFORM_VERSION>${TARGET_PLATFORM_VERSION_MIN}</TARGET_PLATFORM_VERSION>
-		<targetPlatformGroup>jbosstools</targetPlatformGroup>
-		<tpc.groupId>org.jboss.tools.targetplatforms</tpc.groupId>
-		<tpc.group>${targetPlatformGroup}</tpc.group>
-		<tpc.targetKind>multiple</tpc.targetKind>
-		<tpc.version>${TARGET_PLATFORM_VERSION_MIN}</tpc.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 
 		<jbossdmr.version>1.4.1.Final</jbossdmr.version>
 		<jboss.logging.version>3.3.1.Final</jboss.logging.version>
@@ -397,21 +392,12 @@
 						<version>${tychoVersion}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>${tpc.groupId}</groupId>
-									<artifactId>${tpc.group}-${tpc.targetKind}</artifactId>
-									<version>${tpc.version}</version>
-									<classifier>${tpc.group}-${tpc.targetKind}</classifier>
-								</artifact>
+								<file>${maven.multiModuleProjectDirectory}/targetplatform/wildfly-tools.target</file>
 							</target>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>multiple.target</id>
-			<properties><tpc.targetKind>multiple</tpc.targetKind></properties>
 		</profile>
 	</profiles>
 </project>

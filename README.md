@@ -14,7 +14,7 @@ This project is a streamlined version of the original [JBoss Tools](https://gith
 
 ## Prerequisites
 
-- **Java 17+**
+- **Java 21+**
 - **Maven 3.8+**
 
 ## Build
@@ -27,12 +27,6 @@ Tycho compiles for **Linux (GTK x86_64)**, **Windows (Win32 x86_64)**, and **mac
 
 ```bash
 mvn clean install
-```
-
-### With target platform (recommended)
-
-```bash
-mvn clean install -P target-platform
 ```
 
 ### Build offline
