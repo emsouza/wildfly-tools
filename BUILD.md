@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a Maven/Tycho-based Eclipse plugin project for WildFly server adapters. All modules share a unified version (`4.5.0-SNAPSHOT`) defined in the parent POM.
+This is a Maven/Tycho-based Eclipse plugin project for WildFly server adapters. All modules share a unified version (`4.6.0-SNAPSHOT`) defined in the parent POM.
 
 ## Prerequisites
 
@@ -52,18 +52,36 @@ mvn clean install -o
 
 | Profile | Description |
 |---------|-------------|
-| `target-platform` | Uses the project's built-in target platform file (`targetplatform/wildfly-tools.target`). Active by default. |
+| `target-platform` | Uses one of the project's built-in target platform files (`targetplatform/wildfly-tools-${eclipseReleaseName}.target`). Active by default. |
 | `no-target-platform` (`-Dno-target-platform`) | Skips explicit target platform; Tycho resolves from declared p2 repositories. |
+| `eclipse-2026-06` | Targets Eclipse 2026-06 (4.40). Default target (no profile needed). |
+| `eclipse-2026-09` | Targets Eclipse 2026-09 (4.41). |
+| `eclipse-2026-12` | Targets Eclipse 2026-12 (4.42). |
 
-The `target-platform` profile uses `targetplatform/wildfly-tools.target` which defines the Eclipse 2026-06 SimRel repository with all required features and Orbit bundles.
+The target platform profile resolves the target file from the selected Eclipse release:
+
+```bash
+# Eclipse 2026-06 (default)
+mvn clean install
+
+# Eclipse 2026-09
+mvn clean install -Peclipse-2026-09
+
+# Eclipse 2026-12
+mvn clean install -Peclipse-2026-12
+```
+
+Each target file defines the corresponding SimRel repository with all required features and Orbit bundles.
 
 ## Project Structure
 
 ```
 wildfly-tools/
-├── pom.xml                    # Parent POM (version: 4.5.0-SNAPSHOT)
-├── targetplatform/            # Target platform definition
-│   └── wildfly-tools.target   # Eclipse 2026-06 target platform
+├── pom.xml                    # Parent POM (version: 4.6.0-SNAPSHOT)
+├── targetplatform/                    # Target platform definitions
+│   ├── wildfly-tools-2026-06.target   # Eclipse 2026-06 target platform
+│   ├── wildfly-tools-2026-09.target   # Eclipse 2026-09 target platform
+│   └── wildfly-tools-2026-12.target   # Eclipse 2026-12 target platform
 ├── plugins/
 │   ├── base/                  # Core foundation plugins
 │   ├── as/                    # Application Server plugins
@@ -75,7 +93,7 @@ wildfly-tools/
 
 ## Version Management
 
-All modules **inherit version from parent** (no explicit `<version>` in child POMs). Feature XML files use `4.5.0.qualifier` which maps to Maven's `4.5.0-SNAPSHOT`.
+All modules **inherit version from parent** (no explicit `<version>` in child POMs). Feature XML files use `4.6.0.qualifier` which maps to Maven's `4.6.0-SNAPSHOT`.
 
 To update version:
 ```bash
@@ -92,9 +110,9 @@ Missing requirement: ... requires 'org.eclipse.equinox.p2.iu; org.eclipse.jdt.ui
 ```
 
 The target platform is not properly configured. Ensure:
-1. The `.target` file in `targetplatform/` is correct and the repository URLs are accessible
-2. Network access to `https://download.eclipse.org/releases/2026-06/` and similar p2 repositories
-3. The Eclipse version in the target platform matches the project requirements
+1. The selected `.target` file in `targetplatform/` is correct and the repository URLs are accessible
+2. Network access to `https://download.eclipse.org/releases/2026-06/` (or the selected release) and similar p2 repositories
+3. The Eclipse version in the target platform matches the project requirements and the selected profile
 
 ### Corrupted Maven Cache
 
@@ -119,7 +137,7 @@ mvn clean install
 ## CI/CD
 
 For automated builds, ensure:
-- Network access to p2 repositories (Eclipse 2026-06, m2e, etc.)
+- Network access to p2 repositories (Eclipse 2026-06/2026-09/2026-12, m2e, etc.)
 - Java 21+ is used
 - Maven 3.8+ is used
 

@@ -2,11 +2,11 @@
 <feature
       id="org.jboss.tools.runtime.core.feature"
       label="%featureName"
-      version="4.5.0.qualifier"
+      version="4.6.0.qualifier"
       provider-name="%providerName"
       plugin="org.jboss.tools.runtime.core"
       license-feature="org.jboss.tools.foundation.license.feature"
-      license-feature-version="4.5.0.qualifier">
+      license-feature-version="4.6.0.qualifier">
 
    <description>
       %description
@@ -24,14 +24,14 @@
          id="org.jboss.tools.runtime.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.runtime.ui"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
 </feature>

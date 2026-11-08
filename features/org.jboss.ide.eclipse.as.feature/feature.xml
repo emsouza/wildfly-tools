@@ -2,10 +2,10 @@
 <feature
       id="org.jboss.ide.eclipse.as.feature"
       label="%featureName"
-      version="4.5.0.qualifier"
+      version="4.6.0.qualifier"
       provider-name="%providerName"
       license-feature="org.jboss.tools.foundation.license.feature"
-      license-feature-version="4.5.0.qualifier"
+      license-feature-version="4.6.0.qualifier"
       plugin="org.jboss.ide.eclipse.as.ui">
 
 
@@ -66,166 +66,166 @@
          id="org.jboss.tools.as.catalog"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.ui.mbeans"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
    <plugin
          id="org.jboss.tools.as.runtimes.integration"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
     <plugin
           id="org.jboss.ide.eclipse.as.doc.user"
           download-size="0"
           install-size="0"
-          version="4.5.0.qualifier"
+          version="4.6.0.qualifier"
           unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.ui"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.dmr"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.wtp.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.wtp.ui"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.classpath.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.classpath.ui"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.management.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.management.wildfly9"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.management.wf11"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.ide.eclipse.as.jmx.integration"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
     <plugin
           id="org.jboss.ide.eclipse.archives.webtools"
           download-size="0"
           install-size="0"
-          version="4.5.0.qualifier"
+          version="4.6.0.qualifier"
           unpack="false"/>
 
    <plugin
          id="org.jboss.tools.foundation.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.foundation.ui"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.common.jdt"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.common.jdt.debug"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.foundation.checkup"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.common"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.common.core"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.jboss.tools.common.jdt.debug.ui"
          download-size="0"
          install-size="0"
-         version="4.5.0.qualifier"
+         version="4.6.0.qualifier"
          unpack="false"/>
 </feature>

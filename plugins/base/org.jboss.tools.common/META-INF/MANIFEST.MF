@@ -32,7 +32,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",
  com.fasterxml.jackson.core.jackson-databind;bundle-version="0.0.0",
  org.apache.httpcomponents.httpclient;bundle-version="0.0.0",
  org.apache.httpcomponents.httpcore;bundle-version="0.0.0"
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.6.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-21

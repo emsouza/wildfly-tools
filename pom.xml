@@ -5,13 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>wildfly-tools</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
+	<version>4.6.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>WildFly Tools - Server Adapter for Eclipse 2026-06</name>
+	<name>WildFly Tools - Server Adapter for Eclipse 2026-06 / 2026-09 / 2026-12</name>
 
 	<properties>
 		<tychoVersion>5.0.3</tychoVersion>
 		<targetEclipseVersion>4.40 (2026-06)</targetEclipseVersion>
+		<targetJreVersion>21</targetJreVersion>
 		<eclipseReleaseName>2026-06</eclipseReleaseName>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>21</maven.compiler.source>
@@ -120,9 +121,9 @@
 			<snapshots><enabled>false</enabled></snapshots>
 		</repository>
 		<repository>
-			<id>eclipse-2026-06</id>
-			<name>Eclipse 2026-06 Release Repository</name>
-			<url>https://download.eclipse.org/releases/2026-06/</url>
+			<id>eclipse-${eclipseReleaseName}</id>
+			<name>Eclipse ${eclipseReleaseName} Release Repository</name>
+			<url>https://download.eclipse.org/releases/${eclipseReleaseName}/</url>
 			<layout>p2</layout>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>false</enabled></snapshots>
@@ -351,6 +352,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tychoVersion}</version>
 				<configuration>
+					<executionEnvironment>JavaSE-${targetJreVersion}</executionEnvironment>
 					<environments>
 						<environment><os>macosx</os><ws>cocoa</ws><arch>x86_64</arch></environment>
 						<environment><os>win32</os><ws>win32</ws><arch>x86_64</arch></environment>
@@ -380,6 +382,30 @@
 
 	<profiles>
 		<profile>
+			<id>eclipse-2026-06</id>
+			<properties>
+				<targetEclipseVersion>4.40 (2026-06)</targetEclipseVersion>
+				<targetJreVersion>21</targetJreVersion>
+				<eclipseReleaseName>2026-06</eclipseReleaseName>
+			</properties>
+		</profile>
+		<profile>
+			<id>eclipse-2026-09</id>
+			<properties>
+				<targetEclipseVersion>4.41 (2026-09)</targetEclipseVersion>
+				<targetJreVersion>21</targetJreVersion>
+				<eclipseReleaseName>2026-09</eclipseReleaseName>
+			</properties>
+		</profile>
+		<profile>
+			<id>eclipse-2026-12</id>
+			<properties>
+				<targetEclipseVersion>4.42 (2026-12)</targetEclipseVersion>
+				<targetJreVersion>25</targetJreVersion>
+				<eclipseReleaseName>2026-12</eclipseReleaseName>
+			</properties>
+		</profile>
+		<profile>
 			<id>target-platform</id>
 			<activation>
 				<property><name>!no-target-platform</name></property>
@@ -392,7 +418,7 @@
 						<version>${tychoVersion}</version>
 						<configuration>
 							<target>
-								<file>${maven.multiModuleProjectDirectory}/targetplatform/wildfly-tools.target</file>
+								<file>${maven.multiModuleProjectDirectory}/targetplatform/wildfly-tools-${eclipseReleaseName}.target</file>
 							</target>
 						</configuration>
 					</plugin>
